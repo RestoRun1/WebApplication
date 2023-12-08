@@ -42,6 +42,21 @@ const AppMenu = () => {
             ]
         },
         {
+            label: 'Admin',
+            items: [
+                {
+                    label: 'Restaurants',
+                    icon: 'pi pi-fw pi-user',
+                    to: '/admin/restaurants'
+                },
+                {
+                    label: 'Users',
+                    icon: 'pi pi-fw pi-user',
+                    to: '/admin/users'
+                },
+            ]
+        },
+        {
             label: 'UI Components',
             items: [
                 { label: 'Form Layout', icon: 'pi pi-fw pi-id-card', to: '/uikit/formlayout' },
