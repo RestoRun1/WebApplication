@@ -22,22 +22,22 @@ const AppMenu = () => {
                 {
                     label: 'Staff',
                     icon: 'pi pi-fw pi-user',
-                    to: '/staff'
+                    to: '/pages/staff'
                 },
                 {
                     label: 'Events',
                     icon: 'pi pi-fw pi-calendar',
-                    to: '/events'
+                    to: '/pages/events'
                 },
                 {
                     label: 'Menu',
                     icon: 'pi pi-fw pi-book',
-                    to: '/menu'
+                    to: '/pages/menu'
                 },
                 {
                     label: 'Reservations',
                     icon: 'pi pi-fw pi-ticket',
-                    to: '/reservations'
+                    to: '/pages/reservations'
                 },
             ]
         },
