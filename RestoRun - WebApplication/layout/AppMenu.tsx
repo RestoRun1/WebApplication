@@ -39,6 +39,11 @@ const AppMenu = () => {
                     icon: 'pi pi-fw pi-ticket',
                     to: '/pages/reservations'
                 },
+                {
+                    label: 'Orders',
+                    icon: 'pi pi-fw pi-shopping-cart',
+                    to: '/pages/orders'
+                },
             ]
         },
         {
