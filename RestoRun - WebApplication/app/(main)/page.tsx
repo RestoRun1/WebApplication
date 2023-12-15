@@ -329,7 +329,7 @@ const Dashboard = () => {
                                 Richard Jones
                                 <span className="text-700">
                                     {' '}
-                                    has purchased a blue t-shirt for <span className="text-blue-500">79$</span>
+                                    has purchased a Hamburger for <span className="text-blue-500">79$</span>
                                 </span>
                             </span>
                         </li>
@@ -353,7 +353,7 @@ const Dashboard = () => {
                                 Keyser Wick
                                 <span className="text-700">
                                     {' '}
-                                    has purchased a black jacket for <span className="text-blue-500">59$</span>
+                                    has purchased a avocado toast with eggs for <span className="text-blue-500">59$</span>
                                 </span>
                             </span>
                         </li>
@@ -363,7 +363,7 @@ const Dashboard = () => {
                             </div>
                             <span className="text-900 line-height-3">
                                 Jane Davis
-                                <span className="text-700"> has posted a new questions about your product.</span>
+                                <span className="text-700"> has posted a review for your restaurant.</span>
                             </span>
                         </li>
                     </ul>

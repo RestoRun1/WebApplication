@@ -374,20 +374,20 @@ const Crud = () => {
                             <label className="mb-3">Category</label>
                             <div className="formgrid grid">
                                 <div className="field-radiobutton col-6">
-                                    <RadioButton inputId="category1" name="category" value="Accessories" onChange={onCategoryChange} checked={product.category === 'Accessories'} />
-                                    <label htmlFor="category1">Accessories</label>
+                                    <RadioButton inputId="category1" name="category" value="Meat" onChange={onCategoryChange} checked={product.category === 'Meat'} />
+                                    <label htmlFor="category1">Meat</label>
                                 </div>
                                 <div className="field-radiobutton col-6">
-                                    <RadioButton inputId="category2" name="category" value="Clothing" onChange={onCategoryChange} checked={product.category === 'Clothing'} />
-                                    <label htmlFor="category2">Clothing</label>
+                                    <RadioButton inputId="category2" name="category" value="Dessert" onChange={onCategoryChange} checked={product.category === 'Dessert'} />
+                                    <label htmlFor="category2">Dessert</label>
                                 </div>
                                 <div className="field-radiobutton col-6">
-                                    <RadioButton inputId="category3" name="category" value="Electronics" onChange={onCategoryChange} checked={product.category === 'Electronics'} />
-                                    <label htmlFor="category3">Electronics</label>
+                                    <RadioButton inputId="category3" name="category" value="Beverage" onChange={onCategoryChange} checked={product.category === 'Beverage'} />
+                                    <label htmlFor="category3">Beverage</label>
                                 </div>
                                 <div className="field-radiobutton col-6">
-                                    <RadioButton inputId="category4" name="category" value="Fitness" onChange={onCategoryChange} checked={product.category === 'Fitness'} />
-                                    <label htmlFor="category4">Fitness</label>
+                                    <RadioButton inputId="category4" name="category" value="Starter" onChange={onCategoryChange} checked={product.category === 'Starter'} />
+                                    <label htmlFor="category4">Starter</label>
                                 </div>
                             </div>
                         </div>
