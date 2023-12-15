@@ -18,7 +18,7 @@ import { ProductService } from '../../../../demo/service/ProductService';
 import { Demo } from '../../../../types/types';
 
 /* @todo Used 'as any' for types here. Will fix in next version due to onSelectionChange event type issue. */
-const MenuPage = () => {
+const ViewMenuPage = () => {
     let emptyProduct: Demo.Product = {
         id: '',
         name: '',
@@ -193,16 +193,16 @@ const MenuPage = () => {
         setProduct(_product);
     };
 
-    const leftToolbarTemplate = () => {
-        return (
-            <React.Fragment>
-                <div className="my-2">
-                    <Button label="New" icon="pi pi-plus" severity="success" className=" mr-2" onClick={openNew} />
-                    <Button label="Delete" icon="pi pi-trash" severity="danger" onClick={confirmDeleteSelected} disabled={!selectedProducts || !(selectedProducts as any).length} />
-                </div>
-            </React.Fragment>
-        );
-    };
+    // const leftToolbarTemplate = () => {
+    //     return (
+    //         <React.Fragment>
+    //             <div className="my-2">
+    //                 <Button label="New" icon="pi pi-plus" severity="success" className=" mr-2" onClick={openNew} />
+    //                 <Button label="Delete" icon="pi pi-trash" severity="danger" onClick={confirmDeleteSelected} disabled={!selectedProducts || !(selectedProducts as any).length} />
+    //             </div>
+    //         </React.Fragment>
+    //     );
+    // };
 
     const rightToolbarTemplate = () => {
         return (
@@ -280,7 +280,7 @@ const MenuPage = () => {
         return (
             <>
                 <Button icon="pi pi-pencil" rounded severity="success" className="mr-2" onClick={() => editProduct(rowData)} />
-                <Button icon="pi pi-trash" rounded severity="warning" onClick={() => confirmDeleteProduct(rowData)} />
+                {/* <Button icon="pi pi-trash" rounded severity="warning" onClick={() => confirmDeleteProduct(rowData)} /> */}
             </>
         );
     };
@@ -319,7 +319,7 @@ const MenuPage = () => {
             <div className="col-12">
                 <div className="card">
                     <Toast ref={toast} />
-                    <Toolbar className="mb-4" left={leftToolbarTemplate} right={rightToolbarTemplate}></Toolbar>
+                    {/* <Toolbar className="mb-4" left={leftToolbarTemplate} right={rightToolbarTemplate}></Toolbar> */}
 
                     <DataTable
                         ref={dt}
@@ -427,4 +427,4 @@ const MenuPage = () => {
     );
 };
 
-export default MenuPage;
+export default ViewMenuPage;

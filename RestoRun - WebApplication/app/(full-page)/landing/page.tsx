@@ -75,9 +75,12 @@ const LandingPage = () => {
                 >
                     <div className="mx-4 md:mx-8 mt-0 md:mt-4">
                         <h1 className="text-6xl font-bold text-gray-900 line-height-2">
-                            <span className="font-light block">Eu sem integer</span>eget magna fermentum
+                            <span className="font-light block">Order, Pay, Leave. With one button.</span>
                         </h1>
-                        <p className="font-normal text-2xl line-height-3 md:mt-3 text-gray-700">Sed blandit libero volutpat sed cras. Fames ac turpis egestas integer. Placerat in egestas erat... </p>
+                        <p className="font-normal text-2xl line-height-3 md:mt-3 text-gray-700">
+                            <span>Fast & reliable for easy payments.</span>
+                            <span>Reserve your seats, order your meals, pay via one button. Leave anytime without extra waiting times. </span>
+                        </p>
                         <Button type="button" label="Get Started" rounded className="text-xl border-none mt-3 bg-blue-500 font-normal line-height-3 px-3 text-white"></Button>
                     </div>
                     <div className="flex justify-content-center md:justify-content-end">
@@ -346,7 +349,7 @@ const LandingPage = () => {
                     </div>
                 </div>
 
-                <div id="highlights" className="py-4 px-4 lg:px-8 mx-0 my-6 lg:mx-8">
+                {/* <div id="highlights" className="py-4 px-4 lg:px-8 mx-0 my-6 lg:mx-8">
                     <div className="text-center">
                         <h2 className="text-900 font-normal mb-2">Powerful Everywhere</h2>
                         <span className="text-600 text-2xl">Amet consectetur adipiscing elit...</span>
@@ -397,9 +400,9 @@ const LandingPage = () => {
                             <img src="/demo/images/landing/mockup-desktop.svg" className="w-11" alt="mockup" />
                         </div>
                     </div>
-                </div>
+                </div> */}
 
-                <div id="pricing" className="py-4 px-4 lg:px-8 my-2 md:my-4">
+                {/* <div id="pricing" className="py-4 px-4 lg:px-8 my-2 md:my-4">
                     <div className="text-center">
                         <h2 className="text-900 font-normal mb-2">Matchless Pricing</h2>
                         <span className="text-600 text-2xl">Amet consectetur adipiscing elit...</span>
@@ -499,9 +502,9 @@ const LandingPage = () => {
                             </div>
                         </div>
                     </div>
-                </div>
+                </div> */}
 
-                <div className="py-4 px-4 mx-0 mt-8 lg:mx-8">
+                {/* <div className="py-4 px-4 mx-0 mt-8 lg:mx-8">
                     <div className="grid justify-content-between">
                         <div className="col-12 md:col-2" style={{ marginTop: '-1.5rem' }}>
                             <Link href="/" className="flex flex-wrap align-items-center justify-content-center md:justify-content-start md:mb-0 mb-3 cursor-pointer">
@@ -548,7 +551,7 @@ const LandingPage = () => {
                             </div>
                         </div>
                     </div>
-                </div>
+                </div> */}
             </div>
         </div>
     );
