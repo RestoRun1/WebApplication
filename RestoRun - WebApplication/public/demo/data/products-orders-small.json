@@ -233,15 +233,15 @@
             ]
 		},
 		{
-			"id": "1007",
-			"code": "mbvjkgip5",
-			"name": "Lasagna",
-			"description": "Product Description",
-			"image": "lasagna.jpg",
-			"price": 34,
-			"category": "Accessories",
-			"quantity": 23,
-			"inventoryStatus": "INSTOCK",
+            "id": "1007",
+            "code": "mbvjkgip5",
+            "name": "Vegetable Quiche",
+            "description": "A savory, freshly baked quiche filled with seasonal vegetables and cheese",
+            "image": "vegetable-quiche.jpg",
+            "price": 34,
+            "category": "Bakery",
+            "quantity": 23,
+            "inventoryStatus": "INSTOCK",
             "rating": 5,
             "orders": [
                 {
@@ -254,17 +254,17 @@
                     "status": "DELIVERED"
                 }
             ]
-		},
-		{
-			"id": "1008",
-			"code": "vbb124btr",
-			"name": "Game Controller",
-			"description": "Product Description",
-			"image": "macaron.jpg",
-			"price": 99,
-			"category": "Electronics",
-			"quantity": 2,
-			"inventoryStatus": "LOWSTOCK",
+        },
+        {
+            "id": "1008",
+            "code": "vbb124btr",
+            "name": "Raspberry Macarons",
+            "description": "Delicate French macarons filled with a tangy raspberry cream",
+            "image": "raspberry-macarons.jpg",
+            "price": 99,
+            "category": "Desserts",
+            "quantity": 2,
+            "inventoryStatus": "LOWSTOCK",
             "rating": 4,
             "orders": [
                 {
@@ -286,17 +286,17 @@
                     "status": "RETURNED"
                 }
             ]
-		},
-		{
-			"id": "1009",
-			"code": "cm230f032",
-			"name": "Pokebowl",
-			"description": "Product Description",
-			"image": "salad.jpg",
-			"price": 299,
-			"category": "Electronics",
-			"quantity": 63,
-			"inventoryStatus": "INSTOCK",
+        },
+        {
+            "id": "1009",
+            "code": "cm230f032",
+            "name": "Traditional Poke Bowl",
+            "description": "A Hawaiian specialty consisting of fresh diced fish, rice, and various toppings",
+            "image": "poke-bowl.jpg",
+            "price": 299,
+            "category": "Seafood",
+            "quantity": 63,
+            "inventoryStatus": "INSTOCK",
             "rating": 3,
             "orders": [
                 {
@@ -336,6 +336,6 @@
                     "status": "CANCELLED"
                 }
             ]
-		}
+        }
 	]
 }
