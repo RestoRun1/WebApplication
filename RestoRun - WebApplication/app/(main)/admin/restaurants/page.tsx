@@ -16,12 +16,9 @@ interface Restaurant {
     address: string;
     email: string;
     phoneNumber: string;
-  }
+}
 
 const RestaurantsPage = () => {
-
-    
-
     const [isModalVisible, setIsModalVisible] = useState(false);
     const [name, setName] = useState('');
     const [email, setEmail] = useState('');
@@ -34,8 +31,6 @@ const RestaurantsPage = () => {
 
     const [isEditMode, setIsEditMode] = useState(false);
 
-
-    
     const fetchRestaurants = async () => {
         const api = new RestaurantAPI('http://localhost:8080');
         try {
@@ -47,7 +42,7 @@ const RestaurantsPage = () => {
         } finally {
           setLoading(false);
         }
-      };
+    };
 
       // use effect to fetch data from the server. the endpoints are listed in RestaurantAPI.tsx
     useEffect(() => {      
@@ -182,7 +177,6 @@ const RestaurantsPage = () => {
                     </div>     
                     {renderModalContent()}
                     <DataTable value={restaurants} stripedRows style={{ minWidth: '50rem' }}>
-                        
                         <Column field="name" header="Name" />
                         <Column field="email" header="Email" />
                         <Column field="address" header="Address" />

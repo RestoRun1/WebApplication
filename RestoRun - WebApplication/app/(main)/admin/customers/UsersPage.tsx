@@ -7,49 +7,48 @@ import { Dialog } from 'primereact/dialog';
 import { InputText } from 'primereact/inputtext';
 import { useState } from 'react';
 import axios from 'axios';
-import UsersAPI from '../../../api/admin-api/UsersAPI';
+import CustomersAPI from '../../../api/admin-api/CustomersAPI';
 
-
-interface User {
+interface Customer {
     id: string,
     username: string;
     email: string;
-    role: string;
+    password: string;
 }
 
-const UsersPage = () => {
+const CustomersPage = () => {
     const [isModalVisible, setIsModalVisible] = useState(false);
     const [username, setUsername] = useState('');
     const [email, setEmail] = useState('');
     // will change Role to role later
     const [role, setRole] = useState('');
 
-    const [users, setUsers] = useState<User[]>([]);
+    const [customers, setCustomers] = useState<Customer[]>([]);
     const [loading, setLoading] = useState<boolean>(true);
     const [error, setError] = useState<string | null>(null);
 
     const [isEditMode, setIsEditMode] = useState(false);
 
-    const fetchUsers = async () => {
-        const api = new UsersAPI('http://localhost:8080');
+    const fetchCustomers = async () => {
+        const api = new CustomersAPI('http://localhost:8080');
         try {
-            const data = await api.retrieveAllUsers();
-            setUsers(data);
+            const data = await api.retrieveAllCustomers();
+            setCustomers(data);
         } catch (err) {
-            setError('Error fetching users');
+            setError('Error fetching customers');
             console.error(err);
         } finally {
             setLoading(false);
         }
     };
 
-    // use effect to fetch data from the server. the endpoints are listed in UserAPI.tsx
+    // use effect to fetch data from the server. the endpoints are listed in CustomerAPI.tsx
     useEffect(() => {
-        fetchUsers();
+        fetchCustomers();
     }, []);
 
-    const actionBodyTemplate = (rowData: User) => {
-        // find me an icon in prime react which represents banning a user and add it to the actionBodyTemplate
+    const actionBodyTemplate = (rowData: Customer) => {
+        // find me an icon in prime react which represents banning a customer and add it to the actionBodyTemplate
         return (
             <div className="actions">
             <Button className="p-button-success" icon="pi pi-pencil" onClick={() => handleEdit(rowData)} />
@@ -66,7 +65,7 @@ const UsersPage = () => {
         return (
             <div>
                 <Dialog
-                    header={isEditMode ? "Edit User" : "Add New User"}
+                    header={isEditMode ? "Edit Customer" : "Add New Customer"}
         visible={isModalVisible}
         style={{ width: '50vw' }}
         onHide={() => {
@@ -98,59 +97,59 @@ const UsersPage = () => {
 
     const handleSubmit = async () => {
 
-        const api = new UsersAPI('http://localhost:8080');
+        const api = new CustomersAPI('http://localhost:8080');
 
-        // Construct the user object
-        const user: User = {
+        // Construct the customer object
+        const customer: Customer = {
             id: '',
             username: username,
             email: email,
-            role: role,
+            password: password,
         };
 
         try {
-            // Call the API to save the user
-            const response = await api.saveUser(user);
+            // Call the API to save the customer
+            const response = await api.saveCustomer(customer);
             console.log(response); // Or handle the successful save as needed
             setIsModalVisible(false); // Close the modal on success
-            // You might want to refresh your user list here or emit an event that causes a parent component to do so
+            // You might want to refresh your customer list here or emit an event that causes a parent component to do so
         } catch (error) {
-            console.error('Failed to save user:', error);
+            console.error('Failed to save customer:', error);
             // Handle the error state in the UI, such as displaying an error message
         }
     };
 
     // Example handler functions for actions
-    const handleEdit = (rowData: User) => {
+    const handleEdit = (rowData: Customer) => {
         console.log('Edit action for:', rowData);
 
         setUsername(rowData.username);
         setEmail(rowData.email);
-        setRole(rowData.role);
+        setPassword(rowData.password);
         setIsEditMode(true);  // Set edit mode to true
         setIsModalVisible(true);
     };
 
 
     const handleDelete = async (id: string) => {
-        const api = new UsersAPI('http://localhost:8080');
+        const api = new CustomersAPI('http://localhost:8080');
         console.log('Delete action for ID:', id);
 
         if (!id) {
-            console.error('Error: No valid user ID provided for deletion.');
+            console.error('Error: No valid customer ID provided for deletion.');
             return;
         }
 
         try {
-            // Call deleteUser from your API class
-            await api.deleteUser(id);
-            console.log('User deleted successfully');
+            // Call deleteCustomer from your API class
+            await api.deleteCustomer(id);
+            console.log('Customer deleted successfully');
 
-            // Optionally, refresh the list of users or update the UI accordingly
-            fetchUsers();
+            // Optionally, refresh the list of customers or update the UI accordingly
+            fetchCustomers();
 
         } catch (error) {
-            console.error('Failed to delete user:', error); // Improved error logging
+            console.error('Failed to delete customer:', error); // Improved error logging
             // Optionally, handle UI feedback for the error
         }
     };
@@ -161,13 +160,13 @@ const UsersPage = () => {
         <div className="col-12">
         <div className="card">
         <div className="col-6">
-            <h4>Manage Users</h4>
+            <h4>Manage Customers</h4>
     </div>
     <div className="col-6">
-    <Button label="Add New User" className="p-button-success" size="small" icon="pi pi-plus" onClick={handleModalToggle} />
+    <Button label="Add New Customer" className="p-button-success" size="small" icon="pi pi-plus" onClick={handleModalToggle} />
     </div>
     {renderModalContent()}
-    <DataTable value={users} stripedRows style={{ minWidth: '50rem' }}>
+    <DataTable value={customers} stripedRows style={{ minWidth: '50rem' }}>
 
     <Column field="name" header="Name" />
     <Column field="email" header="Email" />
@@ -181,4 +180,4 @@ const UsersPage = () => {
 );
 };
 
-export default UsersPage;
+export default CustomersPage;

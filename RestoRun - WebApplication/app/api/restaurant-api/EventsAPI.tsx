@@ -2,59 +2,44 @@ import axios from 'axios';
 
 interface Event {
     id: string;
-    name: string;
+    title: string;
     description: string;
-    location: string;
-    eventDetails: EventDetail[];
+    startDate: string;
+    endDate: string;
 }
 
-interface EventDetail {
-    id: string;
-    type: string;
-    start: string;
-    end: string;
-    participants: number;
-}
-
-class EventAPI {
+class EventsAPI {
     private baseUrl: string;
     private standardPath: string;
-    private axiosInstance = axios.create();
 
     constructor(baseUrl: string) {
         this.baseUrl = baseUrl;
         this.standardPath = `${this.baseUrl}/api/events`;
     }
 
-    private handleError(error: any): string {
-        return 'Error occurred';
-    }
-
-    private handleResponse(response: any): any {
-        return response.data;
-    }
-
-    public async retrieveEvents(): Promise<Event[]> {
+    public async retrieveAllEvents(): Promise<Event[]> {
         try {
-            const response = await this.axiosInstance.get<Event[]>(`${this.standardPath}/retrieveAllEvents`);
-            return this.handleResponse(response);
+            console.log("DEBUG")
+            const response = await axios.get<Event[]>(`${this.standardPath}/retrieveAllEvents`);
+            console.log(response.data);
+            return response.data;
         } catch (error) {
-            throw new Error(this.handleError(error));
+            throw new Error('Failed to retrieve all events');
         }
     }
 
     public async retrieveEventById(id: string): Promise<Event> {
         try {
-            const response = await this.axiosInstance.get<Event>(`${this.standardPath}/retrieveEventById/${id}`);
-            return this.handleResponse(response);
+            const response = await axios.get<Event>(`${this.standardPath}/retrieveEventById/${id}`);
+            return response.data;
         } catch (error) {
-            throw new Error(this.handleError(error));
+            throw new Error(`Failed to retrieve meal with ID ${id}`);
         }
     }
 
     public async saveEvent(event: Event): Promise<Event> {
         try {
-            const response = await this.axiosInstance.post<Event>(`${this.standardPath}/saveEvent`, event);
+            const response = await axios.post<Event>(`${this.standardPath}/saveEvent`, event);
             return response.data;
         } catch (error) {
             throw new Error('Failed to save event');
@@ -63,9 +48,11 @@ class EventAPI {
 
     public async deleteEvent(id: string): Promise<void> {
         try {
-            await this.axiosInstance.delete(`${this.standardPath}/deleteEvent/${id}`);
+            await axios.delete(`${this.standardPath}/deleteEvent/${id}`);
         } catch (error) {
             throw new Error(`Failed to delete event with ID ${id}`);
         }
     }
 }
+
+export default EventsAPI;
