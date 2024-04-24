@@ -11,7 +11,6 @@ const withAuth = <P extends {}>(
 
         if (!allowedRoles.includes(userType || '')) {
             // TODO perform a redirect here
-            // with Next.js' router to avoid issues during server-side rendering.
             if (typeof window !== 'undefined') {
                 router.push('/not-authorized');
             }

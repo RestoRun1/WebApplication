@@ -6,7 +6,6 @@ const useAuth = () => {
   const router = useRouter();
 
   useEffect(() => {
-    // Only attempt to use the router when it's ready and on the client side
     if (router.isReady && typeof window !== 'undefined') {
       const token = localStorage.getItem('authToken');
       if (!token) {
@@ -15,7 +14,7 @@ const useAuth = () => {
         setIsLoggedIn(true);
       }
     }
-  }, [router.isReady]); // Depend on router.isReady to re-check when the router becomes ready
+  }, [router.isReady]);
 
   return { isLoggedIn };
 }
