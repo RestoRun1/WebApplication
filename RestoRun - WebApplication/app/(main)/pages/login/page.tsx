@@ -1,56 +1,47 @@
-/* eslint-disable @next/next/no-img-element */
 'use client';
-import { useRouter } from 'next/navigation';
-//import { useRouter } from 'next/router';
+import { useRouter } from 'next/router';
 import { Checkbox } from 'primereact/checkbox';
 import { Button } from 'primereact/button';
 import { Password } from 'primereact/password';
-import { LayoutContext } from '../../../../layout/context/layoutcontext';
 import { InputText } from 'primereact/inputtext';
 import { classNames } from 'primereact/utils';
-import AuthService from '../../../../demo/service/AuthService';
-import {useContext, useEffect, useState} from "react";
+import { useContext, useEffect, useState } from "react";
+import {useAuth} from "../../../../app/(main)/utilities/authContext";
+import { LayoutContext } from '../../../../layout/context/layoutcontext';
 
 const LoginPage = () => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [checked, setChecked] = useState(false);
+    const { isAuthenticated, login } = useAuth(); // Destructure the isAuthenticated and login function from useAuth
     const { layoutConfig } = useContext(LayoutContext);
     const [loginError, setLoginError] = useState('');
-
-
     const router = useRouter();
-    const containerClassName = classNames('surface-ground flex align-items-center justify-content-center min-h-screen min-w-screen overflow-hidden', { 'p-input-filled': layoutConfig.inputStyle === 'filled' });
 
     useEffect(() => {
-        const authToken = localStorage.getItem('authToken');
-        if (authToken) {
+        // Redirect if already authenticated
+        if (isAuthenticated) {
             router.push('/pages/menu');
         }
-    }, [router]);
+    }, [isAuthenticated, router]);
 
     const onLoginClick = async () => {
         setLoginError('');
         console.log('Attempting to log in');
         try {
-            const credentials = { email, password };
-            const { token, userType } = await AuthService.login(credentials);
-            console.log('Login successful', token);
-            if (typeof window !== 'undefined') {
-                localStorage.setItem('authToken', token); // Store the token
-                localStorage.setItem('userType', userType); // Store the user type
-                router.push('/pages/menu'); // Navigate to the menu page
-            }
+            await login(email, password);
+            // no need to handle the token storage here
+            router.push('/pages/dashboard');
         } catch (error) {
             console.error('Login failed:', error);
-            if (error instanceof Error) {
-                setLoginError(error.message);
-            } else {
-                setLoginError('An unexpected error occurred');
-            }
+            setLoginError('Failed to log in. Please check your email and password.');
         }
     };
 
+    const containerClassName = classNames(
+        'surface-ground flex align-items-center justify-content-center min-h-screen min-w-screen overflow-hidden',
+        { 'p-input-filled': layoutConfig.inputStyle === 'filled' }
+    );
 
     return (
         <div className={containerClassName}>
