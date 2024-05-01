@@ -5,7 +5,7 @@ import { Password } from 'primereact/password';
 import { InputText } from 'primereact/inputtext';
 import { classNames } from 'primereact/utils';
 import { LayoutContext } from '../../../../layout/context/layoutcontext';
-import { useRouter } from 'next/router';
+import { useRouter } from 'next/navigation';
 import {useContext, useEffect, useState} from 'react';
 import { useAuth } from '../../utilities/useAuth';
 import {AuthProvider} from "../../utilities/authContext"
@@ -13,31 +13,32 @@ import {AuthProvider} from "../../utilities/authContext"
 const LoginPage = () => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
-    const { isAuthenticated, login } = useAuth();
-    const router = useRouter();
-    const [isMounted, setIsMounted] = useState(false);
+    //const { isAuthenticated, login } = useAuth();
+    const isAuthenticated = useAuth().authContext.isAuthenticated;
+    const login = useAuth().authContext.login;
+    const router = useAuth().router;
+    //const router = useRouter();
+    //const [isMounted, setIsMounted] = useState(false);
     const { layoutConfig } = useContext(LayoutContext);
     const [loginError, setLoginError] = useState('');
     const [checked, setChecked] = useState(false);
 
-    useEffect(() => {
+    /*useEffect(() => {
         setIsMounted(true);
         return () => setIsMounted(false); // ceanup function to set isMounted to false when the component unmounts
-    }, []);
+    }, []);*/
 
     useEffect(() => {
         // redirect if already authenticated
-        if (isMounted && isAuthenticated && typeof window !== 'undefined') {
+        if (isAuthenticated /*&& typeof window !== 'undefined'*/) {
             router.push('/pages/dashboard'); // Update the route as needed
         }
-    }, [isAuthenticated, router, isMounted]);
+    }, [/*isAuthenticated, router*/]);
 
     const onLoginClick = async () => {
         try {
             await login(email, password);
-            if (isMounted) {
-                router.push('/pages/dashboard');
-            }
+            router.push('/pages/dashboard');
         } catch (error) {
             console.error('Login failed:', error);
         }

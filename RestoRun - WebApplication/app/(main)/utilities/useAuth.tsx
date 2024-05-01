@@ -15,7 +15,7 @@ export const useAuth = () => {
   useEffect(() => {
     if (hasMounted && typeof window !== 'undefined' && authContext && !authContext.loading) {
       if (!authContext.isAuthenticated) {
-        router.push('/pages/auth/login');
+        router.push('/pages/pages/login');
       }
     }
   }, [authContext, router, hasMounted]);
@@ -24,5 +24,5 @@ export const useAuth = () => {
     throw new Error("AuthContext is not initialized, AuthProvider must wrap the parent component");
   }
 
-  return authContext;
+  return {"login":authContext.login, "authContext":authContext, "router":router};
 };
