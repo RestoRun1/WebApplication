@@ -11,7 +11,8 @@ import { LayoutContext } from '../../../../layout/context/layoutcontext';
 import Link from 'next/link';
 import { Demo } from '../../../../types/types';
 import { ChartData, ChartOptions } from 'chart.js';
-import useAuth from '../../utilities/useAuth';
+import { useAuth } from '../../utilities/useAuth';
+
 
 const lineData: ChartData = {
     labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July'],

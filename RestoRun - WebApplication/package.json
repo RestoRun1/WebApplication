@@ -16,7 +16,7 @@
     "axios": "^1.6.8",
     "chart.js": "4.2.1",
     "js-cookie": "^3.0.5",
-    "next": "^13.4.8",
+    "next": "^14.2.3",
     "primeflex": "^3.3.1",
     "primeicons": "^6.0.1",
     "primereact": "^9.6.2",

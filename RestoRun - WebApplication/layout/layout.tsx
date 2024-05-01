@@ -16,6 +16,8 @@ import { LayoutContext } from "./context/layoutcontext";
 import { PrimeReactContext } from "primereact/api";
 import { ChildContainerProps, LayoutState, AppTopbarRef } from "../types/types";
 import { usePathname, useSearchParams } from "next/navigation";
+import { AuthProvider } from '../app/(main)/utilities/authContext'; // Adjust the path to where your AuthProvider is located
+
 
 
 const Layout = ({ children }: ChildContainerProps) => {
@@ -143,22 +145,22 @@ const Layout = ({ children }: ChildContainerProps) => {
   });
 
   return (
-    <React.Fragment>
-
-
-      <div className={containerClass}>
-        <AppTopbar ref={topbarRef} />
-        <div ref={sidebarRef} className="layout-sidebar">
-          <AppSidebar />
-        </div>
-        <div className="layout-main-container">
-          <div className="layout-main">{children}</div>
-          <AppFooter />
-        </div>
-        <AppConfig />
-        <div className="layout-mask"></div>
-      </div>
-    </React.Fragment>
+      <AuthProvider>
+        <React.Fragment>
+          <div className={containerClass}>
+            <AppTopbar ref={topbarRef} />
+            <div ref={sidebarRef} className="layout-sidebar">
+              <AppSidebar />
+            </div>
+            <div className="layout-main-container">
+              <div className="layout-main">{children}</div>
+              <AppFooter />
+            </div>
+            <AppConfig />
+            <div className="layout-mask"></div>
+          </div>
+        </React.Fragment>
+      </AuthProvider>
   );
 };
 

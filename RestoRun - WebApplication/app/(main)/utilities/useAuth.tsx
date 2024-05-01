@@ -1,23 +1,28 @@
-import { useContext, useEffect } from 'react';
+// useAuth.tsx
+import { useContext, useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
-import { AuthContext } from '../utilities/authContext'; // Ensure this path is correct to your authContext.tsx file
+import AuthContext from './authContext';
 
-const useAuth = () => {
+export const useAuth = () => {
   const authContext = useContext(AuthContext);
   const router = useRouter();
+  const [hasMounted, setHasMounted] = useState(false);
 
   useEffect(() => {
-    // Check if the auth context is ready and if the user is authenticated
-    if (authContext && !authContext.loading) {
-      // If there's no user, redirect to the login page
+    setHasMounted(true);
+  }, []);
+
+  useEffect(() => {
+    if (hasMounted && typeof window !== 'undefined' && authContext && !authContext.loading) {
       if (!authContext.isAuthenticated) {
         router.push('/pages/auth/login');
       }
     }
-  }, [authContext, router]);
+  }, [authContext, router, hasMounted]);
 
-  // You can return the whole authContext or destructure what you need
+  if (!authContext) {
+    throw new Error("AuthContext is not initialized, AuthProvider must wrap the parent component");
+  }
+
   return authContext;
-}
-
-export default useAuth;
+};
