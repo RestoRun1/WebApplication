@@ -27,17 +27,17 @@ const AppMenu = () => {
                 {
                     label: 'Events',
                     icon: 'pi pi-fw pi-calendar',
-                    to: '/pages/events'
+                    to: '/restaurant/events'
                 },
                 {
                     label: 'Menu',
                     icon: 'pi pi-fw pi-book',
-                    to: '/pages/menu'
+                    to: '/restaurant/menu'
                 },
                 {
                     label: 'Reservations',
                     icon: 'pi pi-fw pi-ticket',
-                    to: '/pages/reservations'
+                    to: '/restaurant/reservations'
                 },
                 {
                     label: 'Orders',
@@ -55,9 +55,9 @@ const AppMenu = () => {
                     to: '/admin/restaurants'
                 },
                 {
-                    label: 'Users',
+                    label: 'Customers',
                     icon: 'pi pi-fw pi-user',
-                    to: '/admin/users'
+                    to: '/admin/customers'
                 },
             ]
         },
@@ -73,6 +73,21 @@ const AppMenu = () => {
                     label: 'View Menu',
                     icon: 'pi pi-fw pi-book',
                     to: '/pages/view-menu'
+                },
+            ]
+        },
+        {
+            label: 'Waiter',
+            items: [
+                {
+                    label: 'View Current Orders',
+                    icon: 'pi pi-fw pi-shopping-cart',
+                    to: '/waiter/orders'
+                },
+                {
+                    label: 'View Current Reservations',
+                    icon: 'pi pi-fw pi-book',
+                    to: '/waiter/reservations'
                 },
             ]
         },
