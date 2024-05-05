@@ -8,14 +8,53 @@ import { Password } from 'primereact/password';
 import { LayoutContext } from '../../../../layout/context/layoutcontext';
 import { InputText } from 'primereact/inputtext';
 import { classNames } from 'primereact/utils';
+import LoginAPI from "../../../api/login-api/LoginAPI";
+
+interface LoginRequest {
+    username: string;
+    password: string;
+}
 
 const LoginPage = () => {
+    const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
     const [checked, setChecked] = useState(false);
     const { layoutConfig } = useContext(LayoutContext);
 
     const router = useRouter();
     const containerClassName = classNames('surface-ground flex align-items-center justify-content-center min-h-screen min-w-screen overflow-hidden', { 'p-input-filled': layoutConfig.inputStyle === 'filled' });
+
+    const handleLogin = async () => {
+        const api = new LoginAPI('http://localhost:8080');
+        const loginRequest: LoginRequest = {
+            username: username,
+            password: password
+        };
+
+        // @TODO
+        // Implement login logic
+        // Redirect to restaurant dashboard page if login is successful AS RESTAURANT
+        // Redirect to chef dashboard page if login is successful AS CHEF
+        // Redirect to admin dashboard page if login is successful AS ADMIN
+        try {
+            console.log(loginRequest);
+            const response = await api.login(loginRequest);
+            console.log(response);
+            // response returns two values: token and role
+            // parse the token and role values from the response
+            console.log("HELLO DEBUG TEST");
+            const token = response.token;
+            console.log(token);
+            const roles = response.roles;
+            console.log(roles);
+
+            router.push('/restaurant/dashboard');
+            localStorage.setItem('token', token);
+        }
+        catch (error) {
+            console.error(error);
+        }
+    }
 
     return (
         <div className={containerClassName}>
@@ -36,10 +75,10 @@ const LoginPage = () => {
                         </div>
 
                         <div>
-                            <label htmlFor="email1" className="block text-900 text-xl font-medium mb-2">
-                                Email
+                            <label htmlFor="username" className="block text-900 text-xl font-medium mb-2">
+                                Username
                             </label>
-                            <InputText id="email1" type="text" placeholder="Email address" className="w-full md:w-30rem mb-5" style={{ padding: '1rem' }} />
+                            <InputText id="username" type="text" onChange={(e) => setUsername(e.target.value)} placeholder="Username" className="w-full md:w-30rem mb-5" style={{ padding: '1rem' }} />
 
                             <label htmlFor="password1" className="block text-900 font-medium text-xl mb-2">
                                 Password
@@ -55,7 +94,7 @@ const LoginPage = () => {
                                     Forgot password?
                                 </a>
                             </div>
-                            <Button label="Sign In" className="w-full p-3 text-xl" onClick={() => router.push('/')}></Button>
+                            <Button label="Sign In" className="w-full p-3 text-xl" onClick={handleLogin}></Button>
                         </div>
                     </div>
                 </div>

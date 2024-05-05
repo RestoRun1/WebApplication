@@ -38,9 +38,15 @@ class MealsAPI {
         }
     }
 
+    // add token that was stored in the local storage to the header
     public async retrieveAllMeals(): Promise<Meals[]> {
         try {
-            const response = await axios.get<Meals[]>(`${this.standardPath}/retrieveAllMeals`);
+            const token = localStorage.getItem('token');
+            const response = await axios.get<Meals[]>(`${this.standardPath}/retrieveAllMeals`, {
+                headers: {
+                    'Authorization': `Bearer ${token}`
+                }
+            });
             return response.data;
         } catch (error) {
             throw new Error('Failed to retrieve all meals');
@@ -57,3 +63,10 @@ class MealsAPI {
 }
 
 export default MealsAPI;
+
+/*try {
+const response = await axios.get<Meals[]>(`${this.standardPath}/retrieveAllMeals`);
+return response.data;
+} catch (error) {
+throw new Error('Failed to retrieve all meals');
+}*/

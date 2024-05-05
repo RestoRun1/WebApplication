@@ -17,7 +17,7 @@ const AppMenu = () => {
             items: [
                 {   label: 'Dashboard',
                     icon: 'pi pi-fw pi-home', 
-                    to: '/' 
+                    to: '/restaurant/dashboard'
                 },
                 {
                     label: 'Staff',
