@@ -1,12 +1,13 @@
 import axios from 'axios';
+
 interface Order {
-    // Order will have the following properties
-    id: string;
-    meals: string[];
+    id: number;
     totalPrice: number;
+    quantity: number;
     status: OrderStatus;
-    diningTable: string;
-    kitchen: string;
+    tableId: number;
+    customerId: number;   
+    meals: Meal[];
 }
 
 enum OrderStatus {
@@ -18,7 +19,16 @@ enum OrderStatus {
     CANCELLED = 'CANCELLED',
 }
 
-class OrdersAPI {
+interface Meal {
+    id: string;
+    name: string;
+    description: string;
+    price: number;
+    category: string;
+    rating: number;
+}
+
+class ChefOrdersAPI {
     private baseUrl: string;
     private standardPath: string;
     private axiosInstance = axios.create();
@@ -38,7 +48,12 @@ class OrdersAPI {
 
     public async retrieveAllOrders(): Promise<Order[]> {
         try {
-            const response = await this.axiosInstance.get<Order[]>(`${this.standardPath}/retrieveAllOrders`);
+            const token = localStorage.getItem('token');
+            const response = await this.axiosInstance.get<Order[]>(`${this.standardPath}/retrieveAllOrders`, {
+                headers: {
+                    'Authorization': `Bearer ${token}`
+                }
+            });
             return this.handleResponse(response);
         } catch (error) {
             throw new Error(this.handleError(error));
@@ -88,3 +103,5 @@ class OrdersAPI {
         }
     }
 }
+
+export default ChefOrdersAPI;

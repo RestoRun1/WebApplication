@@ -42,7 +42,7 @@ const AppMenu = () => {
                 {
                     label: 'Orders',
                     icon: 'pi pi-fw pi-shopping-cart',
-                    to: '/pages/orders'
+                    to: '/restaurant/orders'
                 },
             ]
         },
@@ -77,7 +77,7 @@ const AppMenu = () => {
                 {
                     label: 'View Current Orders',
                     icon: 'pi pi-fw pi-shopping-cart',
-                    to: '/pages/view-orders'
+                    to: '/chef/orders'
                 },
                 {
                     label: 'View Menu',

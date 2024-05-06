@@ -8,7 +8,6 @@ import { Column } from 'primereact/column';
 import ChefOrdersAPI from '../../../api/chef-api/OrdersAPI';
 import { Card } from 'primereact/card';
 import { Tag } from 'primereact/tag';
-import { Dialog } from 'primereact/dialog';
 
 interface Order {
     id: number;
@@ -43,8 +42,6 @@ const OrdersPage = () => {
     const [dateTo, setDateTo] = useState<Date | null>(null);
     const [expandedRows, setExpandedRows] = useState({});
     const [orders, setOrders] = useState<Order[]>([]);
-    const [dialogVisible, setDialogVisible] = useState(false);
-
 
     const fetchOrders = async () => {
         const api = new ChefOrdersAPI('http://localhost:8080');
@@ -63,20 +60,6 @@ const OrdersPage = () => {
     const onRowToggle = (event) => {
         setExpandedRows(event.data);
     };
-
-    const showDialog = () => {
-        setDialogVisible(true);
-    };
-
-    const hideDialog = () => {
-        setDialogVisible(false);
-    };
-
-    const dialogFooter = (
-        <div>
-            <Button label="Close" icon="pi pi-times" onClick={hideDialog} className="p-button-text" />
-        </div>
-    );
     
     const rowExpansionTemplate = (data) => (
         <Card title={`Order Details for ID: ${data.id}`} style={{ marginBottom: '20px' }}>
@@ -148,8 +131,7 @@ const OrdersPage = () => {
         <div className="grid">
             <div className="col-12">
                 <div className="card">
-                    <h5>Orders List for Waiter</h5>
-                    <Button label="Add Order" icon="pi pi-external-link" onClick={showDialog} className="p-button-success" style={{ marginBottom: '10px' }} />
+                    <h5>Orders List for Manager</h5>
                     <div className="grid">
                         <div className="col-12">
                             <DataTable value={orders} expandedRows={expandedRows} onRowToggle={onRowToggle}
@@ -163,10 +145,6 @@ const OrdersPage = () => {
                         </div>
                     </div>
                 </div>
-                <Dialog header="Order Details" visible={dialogVisible} style={{ width: '50vw' }} footer={dialogFooter} onHide={hideDialog}>
-                    {/* You can place form or other content here to display or fetch order details */}
-                    <p>This is a place for the order form or details.</p>
-                </Dialog>
             </div>
         </div>
     );
