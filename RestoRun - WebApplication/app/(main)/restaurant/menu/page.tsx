@@ -17,6 +17,9 @@ import React, { useEffect, useRef, useState } from 'react';
 import MealsAPI from "../../../api/restaurant-api/MealsAPI";
 import EventsAPI from "../../../api/restaurant-api/EventsAPI";
 
+import { ProgressSpinner } from 'primereact/progressspinner';
+
+
 interface Meal {
     id: string;
     name: string;
@@ -78,7 +81,7 @@ const MenuPage = () => {
         return (
             <>
                 <Button icon="pi pi-pencil" rounded severity="success" className="mr-2" onClick={() => handleEdit(rowData)} />
-                <Button icon="pi pi-trash" rounded severity="warning" onClick={() => handleDelete(rowData.id)} />
+                <Button icon="pi pi-trash" rounded severity="danger" onClick={() => handleDelete(rowData.id)} />
             </>
         );
     };
@@ -206,11 +209,7 @@ const MenuPage = () => {
                     </div>
                 </div>
 
-                <div className="field">
-                    <label htmlFor="rating">Rating</label>
-                    <InputNumber id="rating" value={rating} onValueChange={(e) => setRating(e.target.value)}/>
-                </div>
-
+                
             </Dialog>
         );
     }

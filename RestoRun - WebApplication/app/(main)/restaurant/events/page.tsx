@@ -7,6 +7,8 @@ import { Column } from 'primereact/column';
 import { Dialog } from 'primereact/dialog';
 import { Calendar } from 'primereact/calendar';
 import EventsAPI from "../../../api/restaurant-api/EventsAPI";
+import { Nullable } from "primereact/ts-helpers";
+
 
 interface Event {
     id: string;
@@ -22,8 +24,8 @@ const EventsPage = () => {
     const [isModalVisible, setIsModalVisible] = useState(false);
     const [title, setTitle] = useState('');
     const [description, setDescription] = useState('');
-    const [startDate, setStartDate] = useState('');
-    const [endDate, setEndDate] = useState('');
+    const [startDate, setStartDate] = useState<Nullable<Date>>(null);
+    const [endDate, setEndDate] = useState<Nullable<Date>>(null);
     const [date, setDate] = useState<Date>(new Date());
 
     const [events, setEvents] = useState<Event[]>([]);
@@ -57,13 +59,33 @@ const EventsPage = () => {
         setIsModalVisible(!isModalVisible);
     };
 
-    const convertStringToDate = (dateString: string): Date => {
-        return new Date(dateString);
-    }
+    
 
     const convertDateToString = (date: Date): string => {
         return date.toISOString();
     }
+
+    const parseDateTimeString = (dateTimeString: Date): string => {
+        const parsedDate = new Date(dateTimeString);
+        return parsedDate.toISOString(); // Convert to ISO 8601 format
+    };
+
+    const convertDateTimeString = (isoDateTime: string): string => {
+        const date = new Date(isoDateTime);
+        // Format the date in the desired format (yyyy-mm-dd hh:mm:ss.ffffff)
+        const formattedDate = `${date.getFullYear()}-${padZero(date.getMonth() + 1)}-${padZero(date.getDate())} ${padZero(date.getHours())}:${padZero(date.getMinutes())}:${padZero(date.getSeconds())}.${padZero(date.getMilliseconds(), 6)}`;
+        return formattedDate;
+    };
+    
+    const padZero = (num: number, length: number = 2): string => {
+        return num.toString().padStart(length, '0');
+    };
+
+    const convertDateTimeStringToDate = (isoDateTime: string): Date => {
+        const date = new Date(isoDateTime);
+        return new Date(date.getFullYear(), date.getMonth(), date.getDate(), date.getHours(), date.getMinutes(), date.getSeconds(), date.getMilliseconds());
+    };
+    
 
     const renderModalContent = () => {
         return (
@@ -80,13 +102,11 @@ const EventsPage = () => {
                         </div>
                         <div className="field">
                             <label htmlFor="startDate">Start Date</label>
-                            <Calendar id="startDate" value={startDate} onChange={(e) => setStartDate(convertDateToString(e.value))}
-                                      showTime/>
+                            <Calendar id="startDate" value={startDate} onChange={(e) => setStartDate(convertDateTimeStringToDate(convertDateTimeString(parseDateTimeString(e.value))))} showTime hourFormat='24'/>
                         </div>
                         <div className="field">
                             <label htmlFor="endDate">End Date</label>
-                            <Calendar id="endDate" value={endDate} onChange={(e) => setEndDate(convertDateToString(e.value))}
-                                      showTime/>
+                            <Calendar id="endDate" value={endDate} onChange={(e) => setEndDate(convertDateTimeStringToDate(convertDateTimeString(parseDateTimeString(e.value))))} showTime hourFormat='24'/>
                         </div>
                         <div className="field">
                             <Button label="Submit" className="p-button-success" size="small" icon="pi pi-check"
@@ -100,10 +120,10 @@ const EventsPage = () => {
 
     const actionBodyTemplate = (rowData: Event) => {
         return (
-            <React.Fragment>
-                <Button icon="pi pi-check" className="p-button-success" size="small" onClick={() => handleEdit(rowData)} />
-                <Button icon="pi pi-trash"  className="p-button-danger" size="small" style={{ marginLeft: '0.5em' }} onClick={() => handleDelete(rowData.id)}/>
-            </React.Fragment>
+            <>
+                <Button icon="pi pi-pencil" rounded severity="success" className="mr-2" onClick={() => handleEdit(rowData)} />
+                <Button icon="pi pi-trash" rounded severity="warning" onClick={() => handleDelete(rowData.id)} />
+            </>
         );
     };
 

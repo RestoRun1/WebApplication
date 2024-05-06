@@ -8,6 +8,8 @@ import { InputText } from 'primereact/inputtext';
 import { useState } from 'react';
 import axios from 'axios';
 import RestaurantAPI from '../../../api/admin-api/RestaurantsAPI';
+import { ProgressSpinner } from 'primereact/progressspinner';
+
 
 
 interface Restaurant {
@@ -54,10 +56,10 @@ const RestaurantsPage = () => {
     const actionBodyTemplate = (rowData: Restaurant) => {
         // find me an icon in prime react which represents banning a user and add it to the actionBodyTemplate
         return (
-            <div className="actions">
-                <Button className="p-button-success" icon="pi pi-pencil" onClick={() => handleEdit(rowData)} />
-                <Button className="p-button-danger" icon="pi pi-trash" onClick={() => handleDelete(rowData.id)} />
-            </div>
+            <>
+                <Button icon="pi pi-pencil" rounded severity="success" className="mr-2" onClick={() => handleEdit(rowData)} />
+                <Button icon="pi pi-trash" rounded severity="warning" onClick={() => handleDelete(rowData.id)} />
+            </>
         );
     }
 
@@ -176,13 +178,19 @@ const RestaurantsPage = () => {
                             <Button label="Add New Restaurant" className="p-button-success" size="small" icon="pi pi-plus" onClick={handleModalToggle} />
                     </div>     
                     {renderModalContent()}
-                    <DataTable value={restaurants} stripedRows style={{ minWidth: '50rem' }}>
-                        <Column field="name" header="Name" />
-                        <Column field="email" header="Email" />
-                        <Column field="address" header="Address" />
-                        <Column field="phoneNumber" header="Phone" />
-                        <Column header="Actions" body={actionBodyTemplate} />
-                    </DataTable>
+                    {loading ? (
+                        <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100vh' }}>
+                            <ProgressSpinner />
+                        </div>
+                    ) : (
+                        <DataTable value={restaurants} stripedRows style={{ minWidth: '50rem' }}>
+                            <Column field="name" header="Name" />
+                            <Column field="email" header="Email" />
+                            <Column field="address" header="Address" />
+                            <Column field="phoneNumber" header="Phone" />
+                            <Column header="Actions" body={actionBodyTemplate} />
+                        </DataTable>
+                    )}
                 </div>
             </div>
         </div>

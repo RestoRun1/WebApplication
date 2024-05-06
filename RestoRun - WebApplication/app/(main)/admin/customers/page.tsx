@@ -7,6 +7,7 @@ import CustomersAPI from "../../../api/admin-api/CustomersAPI";
 import RestaurantAPI from "../../../api/admin-api/RestaurantsAPI";
 import {Dialog} from "primereact/dialog";
 import {InputText} from "primereact/inputtext";
+import { ProgressSpinner } from 'primereact/progressspinner';
 
 interface Customer {
     userId: string,
@@ -146,12 +147,18 @@ const CustomersPage = () => {
                                 onClick={handleModalToggle}/>
                     </div>
                     {renderModalContent()}
+                    {loading ? (
+                        <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100vh' }}>
+                            <ProgressSpinner />
+                        </div>
+                    ) : (
                     <DataTable value={customers} stripedRows tableStyle={{minWidth: '50rem'}}>
                         <Column field="userId" header="ID"></Column>
                         <Column field="username" header="Name"></Column>
                         <Column field="email" header="Email"></Column>
                         <Column header="Actions" body={actionBodyTemplate}/>
                     </DataTable>
+                    )}
                 </div>
             </div>
         </div>

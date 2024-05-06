@@ -22,7 +22,7 @@ const AppMenu = () => {
                 {
                     label: 'Staff',
                     icon: 'pi pi-fw pi-user',
-                    to: '/pages/staff'
+                    to: '/restaurant/staff'
                 },
                 {
                     label: 'Events',
@@ -50,6 +50,11 @@ const AppMenu = () => {
             label: 'Admin',
             items: [
                 {
+                    label: 'Admin Dashboard',
+                    icon: 'pi pi-fw pi-home',
+                    to: '/admin/dashboard'
+                },
+                {
                     label: 'Restaurants',
                     icon: 'pi pi-fw pi-user',
                     to: '/admin/restaurants'
@@ -65,6 +70,11 @@ const AppMenu = () => {
             label: 'Chef',
             items: [
                 {
+                    label: 'Chef Dashboard',
+                    icon: 'pi pi-fw pi-home',
+                    to: '/chef/dashboard'
+                },
+                {
                     label: 'View Current Orders',
                     icon: 'pi pi-fw pi-shopping-cart',
                     to: '/pages/view-orders'
@@ -79,6 +89,11 @@ const AppMenu = () => {
         {
             label: 'Waiter',
             items: [
+                {
+                    label: 'Waiter Dashboard',
+                    icon: 'pi pi-fw pi-home',
+                    to: '/waiter/dashboard'
+                },
                 {
                     label: 'View Current Orders',
                     icon: 'pi pi-fw pi-shopping-cart',
