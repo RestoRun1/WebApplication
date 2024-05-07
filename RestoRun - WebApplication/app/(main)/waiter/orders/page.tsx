@@ -9,6 +9,7 @@ import ChefOrdersAPI from '../../../api/chef-api/OrdersAPI';
 import { Card } from 'primereact/card';
 import { Tag } from 'primereact/tag';
 import { Dialog } from 'primereact/dialog';
+import { Chip } from 'primereact/chip';
 
 interface Order {
     id: number;
@@ -88,24 +89,24 @@ const OrdersPage = () => {
     );
     
     const rowExpansionTemplate = (data) => (
-        <Card title={`Order Details for ID: ${data.id}`} style={{ marginBottom: '20px' }}>
-            <div className="p-fluid p-formgrid p-grid">
-                <div className="p-field p-col-12 p-md-6">
+        <Card title={`Order Details for ID: ${data.id}`} style={{ marginBottom: '20px', backgroundColor: '#f4f4f4' }} className="order-details-card">
+            <div className="p-grid">
+                <div className="p-col-12 p-md-6 order-details-item">
                     <label><strong>Total Price:</strong></label>
-                    <p>${data.totalPrice.toFixed(2)}</p>
+                    <Chip label={`$${data.totalPrice.toFixed(2)}`} className="total-price-chip" />
                 </div>
-                <div className="p-field p-col-12 p-md-6">
+                <div className="p-col-12 p-md-6 order-details-item">
                     <label><strong>Status:</strong></label>
-                    <Tag className={`p-tag-${getStatusColor(data.status)}`} value={data.status}></Tag>
+                    <Tag className={`status-tag p-tag-${getStatusColor(data.status)}`} value={data.status}></Tag>
                 </div>
-                <div className="p-field p-col-12 p-md-6">
+                <div className="p-col-12 p-md-6 order-details-item">
                     <label><strong>Customer ID:</strong></label>
                     <p>{data.customerId}</p>
                 </div>
-                <div className="p-field p-col-12 p-md-6">
+                <div className="p-col-12 order-details-item">
                     <h6>Meals Included:</h6>
                     {data.meals && data.meals.map((meal) => (
-                        <Card key={meal.id} title={meal.name} subTitle={`$${meal.price.toFixed(2)}`} style={{ marginBottom: '10px' }}>
+                        <Card key={meal.id} title={meal.name} subTitle={`$${meal.price.toFixed(2)}`} style={{ marginBottom: '10px', backgroundColor: '#ffffff' }} className="meal-card">
                             <p>{meal.description}</p>
                         </Card>
                     ))}

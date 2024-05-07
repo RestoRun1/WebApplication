@@ -8,7 +8,7 @@ interface SimpleLayoutProps {
 
 export const metadata: Metadata = {
     title: 'Restorun',
-    description: 'The ultimate collection of design-agnostic, flexible and accessible React UI Components.'
+    description: 'Manage your restaurant.Fast & reliable for easy payments for customers.Reserve your seats, order your meals, pay via one button. Leave anytime without extra waiting times.'
 };
 
 export default function SimpleLayout({ children }: SimpleLayoutProps) {
