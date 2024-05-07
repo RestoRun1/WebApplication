@@ -62,7 +62,12 @@ class ChefOrdersAPI {
 
     public async retrieveOrderById(id: string): Promise<Order> {
         try {
-            const response = await this.axiosInstance.get<Order>(`${this.standardPath}/retrieveOrderById/${id}`);
+            const token = localStorage.getItem('token');
+            const response = await this.axiosInstance.get<Order>(`${this.standardPath}/retrieveOrderById/${id}`,  {
+                headers: {
+                    'Authorization': `Bearer ${token}`
+                }
+            });
             return this.handleResponse(response);
         } catch (error) {
             throw new Error(this.handleError(error));
@@ -71,7 +76,12 @@ class ChefOrdersAPI {
 
     public async updateOrder(order: Order): Promise<void> {
         try {
-            await this.axiosInstance.put(`${this.standardPath}/updateOrder`, order);
+            const token = localStorage.getItem('token');
+            await this.axiosInstance.put(`${this.standardPath}/updateOrder`, order,  {
+                headers: {
+                    'Authorization': `Bearer ${token}`
+                }
+            });
         } catch (error) {
             throw new Error(this.handleError(error));
         }
@@ -79,7 +89,12 @@ class ChefOrdersAPI {
 
     public async deleteOrder(id: string): Promise<void> {
         try {
-            await this.axiosInstance.delete(`${this.standardPath}/deleteOrder/${id}`);
+            const token = localStorage.getItem('token');
+            await this.axiosInstance.delete(`${this.standardPath}/deleteOrder/${id}`,  {
+                headers: {
+                    'Authorization': `Bearer ${token}`
+                }
+            });
         } catch (error) {
             throw new Error(this.handleError(error));
         }
@@ -87,7 +102,12 @@ class ChefOrdersAPI {
 
     public async createOrder(order: Order): Promise<Order> {
         try {
-            const response = await this.axiosInstance.post<Order>(`${this.standardPath}/createOrder`, order);
+            const token = localStorage.getItem('token');
+            const response = await this.axiosInstance.post<Order>(`${this.standardPath}/createOrder`, order,  {
+                headers: {
+                    'Authorization': `Bearer ${token}`
+                }
+            });
             return this.handleResponse(response);
         } catch (error) {
             throw new Error(this.handleError(error));
@@ -96,7 +116,12 @@ class ChefOrdersAPI {
 
     public async retrieveOrdersByChefId(id: string): Promise<Order[]> {
         try {
-            const response = await this.axiosInstance.get<Order[]>(`${this.standardPath}/retrieveOrdersByChefId/${id}`);
+            const token = localStorage.getItem('token');
+            const response = await this.axiosInstance.get<Order[]>(`${this.standardPath}/retrieveOrdersByChefId/${id}`,  {
+                headers: {
+                    'Authorization': `Bearer ${token}`
+                }
+            });
             return this.handleResponse(response);
         } catch (error) {
             throw new Error(this.handleError(error));
