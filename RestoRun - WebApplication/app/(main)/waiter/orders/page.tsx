@@ -39,6 +39,15 @@ interface Meal {
 }
 
 const OrdersPage = () => {
+    const emptyMeal: Meal = {
+        id: '',
+        name: '',
+        description: '',
+        price: 0,
+        category: '',
+        rating: 0,
+    };
+    
     const [dateFrom, setDateFrom] = useState<Date | null>(null);
     const [dateTo, setDateTo] = useState<Date | null>(null);
     const [expandedRows, setExpandedRows] = useState({});

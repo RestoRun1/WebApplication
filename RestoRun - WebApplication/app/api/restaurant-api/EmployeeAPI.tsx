@@ -35,7 +35,12 @@ class EmployeeAPI {
 
     public async retrieveEmployeeById(id: string): Promise<Employee> {
         try {
-            const response = await axios.get<Employee>(`${this.standardPath}/retrieveEmployeeById/${id}`);
+            const token = localStorage.getItem('token');
+            const response = await axios.get<Employee>(`${this.standardPath}/retrieveEmployeeById/${id}`, {
+                headers: {
+                    'Authorization': `Bearer ${token}`
+                }
+            });
             return response.data;
         } catch (error) {
             throw new Error(`Failed to retrieve employee with ID ${id}`);
@@ -44,7 +49,12 @@ class EmployeeAPI {
 
     public async saveEmployee(employee: Employee): Promise<Employee> {
         try {
-            const response = await axios.post<Employee>(`${this.standardPath}/saveEmployee`, employee);
+            const token = localStorage.getItem('token');
+            const response = await axios.post<Employee>(`${this.standardPath}/saveEmployee`, employee, {
+                headers: {
+                    'Authorization': `Bearer ${token}`
+                }
+            });
             return response.data;
         } catch (error) {
             throw new Error('Failed to save employee');
@@ -53,7 +63,12 @@ class EmployeeAPI {
 
     public async deleteEmployee(id: string): Promise<void> {
         try {
-            await axios.delete(`${this.standardPath}/deleteEmployee/${id}`);
+            const token = localStorage.getItem('token');
+            await axios.delete(`${this.standardPath}/deleteEmployee/${id}`, {
+                headers: {
+                    'Authorization': `Bearer ${token}`
+                }
+            });;
         } catch (error) {
             throw new Error(`Failed to delete employee with ID ${id}`);
         }

@@ -34,7 +34,12 @@ class MenuAPI {
 
     public async retrieveMenuItems(): Promise<MenuItem[]> {
         try {
-            const response = await this.axiosInstance.get<MenuItem[]>(`${this.standardPath}/retrieveAllMenuItems`);
+            const token = localStorage.getItem('token');
+            const response = await this.axiosInstance.get<MenuItem[]>(`${this.standardPath}/retrieveAllMenuItems`, {
+                headers: {
+                    'Authorization': `Bearer ${token}`
+                }
+            });
             return this.handleResponse(response);
         } catch (error) {
             throw new Error(this.handleError(error));

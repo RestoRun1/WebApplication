@@ -17,7 +17,12 @@ class TableAPI{
 
     public async retrieveAllTables(): Promise<Table[]>{
         try{
-            const response = await axios.get<Table[]>(`${this.standardPath}/retrieveAllTables`);
+            const token = localStorage.getItem('token');
+            const response = await axios.get<Table[]>(`${this.standardPath}/retrieveAllTables`, {
+                headers: {
+                    'Authorization': `Bearer ${token}`
+                }
+            });
             return response.data;
         }catch(error){
             throw new Error('Failed to retrieve all tables');
@@ -26,7 +31,12 @@ class TableAPI{
 
     public async retrieveTableById(id: string): Promise<Table>{
         try{
-            const response = await axios.get<Table>(`${this.standardPath}/retrieveTableById/${id}`);
+            const token = localStorage.getItem('token');
+            const response = await axios.get<Table>(`${this.standardPath}/retrieveTableById/${id}`, {
+                headers: {
+                    'Authorization': `Bearer ${token}`
+                }
+            });
             return response.data;
         }catch(error){
             throw new Error(`Failed to retrieve table with ID ${id}`);
@@ -35,7 +45,12 @@ class TableAPI{
 
     public async saveTable(table: Table): Promise<Table>{
         try{
-            const response = await axios.post<Table>(`${this.standardPath}/saveTable`, table);
+            const token = localStorage.getItem('token');
+            const response = await axios.post<Table>(`${this.standardPath}/saveTable`, table, {
+                headers: {
+                    'Authorization': `Bearer ${token}`
+                }
+            });
             return response.data;
         }catch(error){
             throw new Error('Failed to save table');
@@ -44,7 +59,12 @@ class TableAPI{
 
     public async deleteTable(id: string): Promise<void>{
         try{
-            await axios.delete(`${this.standardPath}/deleteTable/${id}`);
+            const token = localStorage.getItem('token');
+            await axios.delete(`${this.standardPath}/deleteTable/${id}`, {
+                headers: {
+                    'Authorization': `Bearer ${token}`
+                }
+            });
         }catch(error){
             throw new Error(`Failed to delete table with ID ${id}`);
         }
@@ -52,7 +72,12 @@ class TableAPI{
 
     public async updateTable(table: Table): Promise<void>{
         try{
-            await axios.put(`${this.standardPath}/updateTable`, table);
+            const token = localStorage.getItem('token');
+            await axios.put(`${this.standardPath}/updateTable`, table, {
+                headers: {
+                    'Authorization': `Bearer ${token}`
+                }
+            });
         }catch(error){
             throw new Error('Failed to update table');
         }

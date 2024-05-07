@@ -9,6 +9,7 @@ import { LayoutContext } from '../../../../layout/context/layoutcontext';
 import { InputText } from 'primereact/inputtext';
 import { classNames } from 'primereact/utils';
 import LoginAPI from "../../../api/login-api/LoginAPI";
+import Link from 'next/link';
 
 interface LoginRequest {
     username: string;
@@ -59,7 +60,10 @@ const LoginPage = () => {
     return (
         <div className={containerClassName}>
             <div className="flex flex-column align-items-center justify-content-center">
-                <img src={`/layout/images/logo-${layoutConfig.colorScheme === 'light' ? 'dark' : 'white'}.svg`} alt="Sakai logo" className="mb-5 w-6rem flex-shrink-0" />
+                <Link href="/" className="layout-topbar-logo">
+                {/*after logo -${layoutConfig.colorScheme !== 'light' ? 'white' : 'dark'}.svg */}
+                    <img src={`/layout/images/logo.png`} width="188.88px" height="140px" alt="logo"/>
+                </Link>
                 <div
                     style={{
                         borderRadius: '56px',
@@ -69,8 +73,8 @@ const LoginPage = () => {
                 >
                     <div className="w-full surface-card py-8 px-5 sm:px-8" style={{ borderRadius: '53px' }}>
                         <div className="text-center mb-5">
-                            <img src="/demo/images/login/avatar.png" alt="Image" height="50" className="mb-3" />
-                            <div className="text-900 text-3xl font-medium mb-3">Welcome, Isabel!</div>
+                            
+                            <div className="text-900 text-3xl font-medium mb-3">Welcome!</div>
                             <span className="text-600 font-medium">Sign in to continue</span>
                         </div>
 
@@ -104,3 +108,7 @@ const LoginPage = () => {
 };
 
 export default LoginPage;
+
+/*
+<img src="/demo/images/login/avatar.png" alt="Image" height="50" className="mb-3" />
+*/

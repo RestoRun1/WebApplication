@@ -33,7 +33,12 @@ class EventsAPI {
 
     public async retrieveEventById(id: string): Promise<Event> {
         try {
-            const response = await axios.get<Event>(`${this.standardPath}/retrieveEventById/${id}`);
+            const token = localStorage.getItem('token');
+            const response = await axios.get<Event>(`${this.standardPath}/retrieveEventById/${id}`, {
+                headers: {
+                    'Authorization': `Bearer ${token}`
+                }
+            });
             return response.data;
         } catch (error) {
             throw new Error(`Failed to retrieve meal with ID ${id}`);
@@ -42,7 +47,12 @@ class EventsAPI {
 
     public async saveEvent(event: Event): Promise<Event> {
         try {
-            const response = await axios.post<Event>(`${this.standardPath}/saveEvent`, event);
+            const token = localStorage.getItem('token');
+            const response = await axios.post<Event>(`${this.standardPath}/saveEvent`, event, {
+                headers: {
+                    'Authorization': `Bearer ${token}`
+                }
+            });
             return response.data;
         } catch (error) {
             throw new Error('Failed to save event');
@@ -51,7 +61,12 @@ class EventsAPI {
 
     public async deleteEvent(id: string): Promise<void> {
         try {
-            await axios.delete(`${this.standardPath}/deleteEvent/${id}`);
+            const token = localStorage.getItem('token');
+            await axios.delete(`${this.standardPath}/deleteEvent/${id}`, {
+                headers: {
+                    'Authorization': `Bearer ${token}`
+                }
+            });
         } catch (error) {
             throw new Error(`Failed to delete event with ID ${id}`);
         }

@@ -21,8 +21,15 @@ class MealsAPI {
     }
 
     public async saveMeal(meal: Meals): Promise<Meals> {
+        console.log(meal);
         try {
-            const response = await axios.post<Meals>(`${this.standardPath}/saveMeal`, meal);
+            const token = localStorage.getItem('token');
+            console.log(token);
+            const response = await axios.post<Meals>(`${this.standardPath}/saveMeal`, meal, {
+                headers: {
+                    'Authorization': `Bearer ${token}`
+                }
+            });
             return response.data;
         } catch (error) {
             throw new Error('Failed to save meal');
@@ -31,7 +38,12 @@ class MealsAPI {
 
     public async retrieveMealById(id: string): Promise<Meals> {
         try {
-            const response = await axios.get<Meals>(`${this.standardPath}/retrieveMealById/${id}`);
+            const token = localStorage.getItem('token');
+            const response = await axios.get<Meals>(`${this.standardPath}/retrieveMealById/${id}`, {
+                headers: {
+                    'Authorization': `Bearer ${token}`
+                }
+            });
             return response.data;
         } catch (error) {
             throw new Error(`Failed to retrieve meal with ID ${id}`);
@@ -55,7 +67,12 @@ class MealsAPI {
 
     public async deleteMeal(id: string): Promise<void> {
         try {
-            await axios.delete(`${this.standardPath}/deleteMeal/${id}`);
+            const token = localStorage.getItem('token');
+            await axios.delete(`${this.standardPath}/deleteMeal/${id}`, {
+                headers: {
+                    'Authorization': `Bearer ${token}`
+                }
+            });
         } catch (error) {
             throw new Error(`Failed to delete meal with ID ${id}`);
         }
