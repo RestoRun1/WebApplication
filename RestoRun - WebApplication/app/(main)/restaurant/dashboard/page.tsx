@@ -11,6 +11,35 @@ import { LayoutContext } from '../../../../layout/context/layoutcontext';
 import Link from 'next/link';
 import { Demo } from '../../../../types/types';
 import { ChartData, ChartOptions } from 'chart.js';
+import ChefOrdersAPI from "../../../api/chef-api/OrdersAPI";
+
+interface Meal {
+    id: string;
+    name: string;
+    description: string;
+    price: number;
+    category: string;
+    rating: number;
+}
+
+interface Order {
+    id: number;
+    totalPrice: number;
+    quantity: number;
+    status: OrderStatus;
+    tableId: number;
+    customerId: number;
+    meals: Meal[];
+}
+
+enum OrderStatus {
+    // OrderStatus will have the following properties
+    PENDING = 'PENDING',
+    PREPARING = 'PREPARING',
+    READY = 'READY',
+    DELIVERED = 'DELIVERED',
+    CANCELLED = 'CANCELLED',
+}
 
 const lineData: ChartData = {
     labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
@@ -35,11 +64,46 @@ const lineData: ChartData = {
 };
 
 const Dashboard = () => {
+
+    const [dateFrom, setDateFrom] = useState<Date | null>(null);
+    const [dateTo, setDateTo] = useState<Date | null>(null);
+    const [expandedRows, setExpandedRows] = useState({});
+    const [orders, setOrders] = useState<Order[]>([]);
+    const [meals, setMeals] = useState<Meal[]>([]);
+    const [orderCount, setOrderCount] = useState<number>(0);
+    const [totalRevenue, setTotalRevenue] = useState<number>(0);
+    const [customerCount, setCustomerCount] = useState<number>(0);
+
     const [products, setProducts] = useState<Demo.Product[]>([]);
     const menu1 = useRef<Menu>(null);
     const menu2 = useRef<Menu>(null);
     const [lineOptions, setLineOptions] = useState<ChartOptions>({});
     const { layoutConfig } = useContext(LayoutContext);
+
+    const fetchOrders = async () => {
+        const api = new ChefOrdersAPI('http://localhost:8080');
+        try {
+            const data = await api.retrieveAllOrders();
+            setOrderCount(data.length);
+            setTotalRevenue(data.reduce((acc, order) => acc + order.totalPrice, 0));
+            setCustomerCount(new Set(data.map((order) => order.customerId)).size);
+            setOrders(data);
+            extractMeals(data);
+        } catch (error) {
+            console.error('Failed to fetch orders', error);
+        }
+    };
+
+    const extractMeals = (orders: Order[]) => {
+        const allMeals = orders.flatMap((order) => order.meals);
+        setMeals(allMeals);
+        console.log(allMeals);
+    };
+
+    useEffect(() => {
+        fetchOrders();
+    }, []);
+
 
     const applyLightTheme = () => {
         const lineOptions: ChartOptions = {
@@ -131,13 +195,13 @@ const Dashboard = () => {
                     <div className="flex justify-content-between mb-3">
                         <div>
                             <span className="block text-500 font-medium mb-3">Orders</span>
-                            <div className="text-900 font-medium text-xl">152</div>
+                            <div className="text-900 font-medium text-xl">{orderCount}</div>
                         </div>
                         <div className="flex align-items-center justify-content-center bg-blue-100 border-round" style={{ width: '2.5rem', height: '2.5rem' }}>
                             <i className="pi pi-shopping-cart text-blue-500 text-xl" />
                         </div>
                     </div>
-                    <span className="text-green-500 font-medium">24 new </span>
+                    <span className="text-green-500 font-medium">{orderCount} </span>
                     <span className="text-500">since last visit</span>
                 </div>
             </div>
@@ -146,13 +210,13 @@ const Dashboard = () => {
                     <div className="flex justify-content-between mb-3">
                         <div>
                             <span className="block text-500 font-medium mb-3">Revenue</span>
-                            <div className="text-900 font-medium text-xl">$2.100</div>
+                            <div className="text-900 font-medium text-xl">{formatCurrency(totalRevenue)}</div>
                         </div>
                         <div className="flex align-items-center justify-content-center bg-orange-100 border-round" style={{ width: '2.5rem', height: '2.5rem' }}>
                             <i className="pi pi-map-marker text-orange-500 text-xl" />
                         </div>
                     </div>
-                    <span className="text-green-500 font-medium">%52+ </span>
+                    <span className="text-green-500 font-medium">+{formatCurrency(totalRevenue)} </span>
                     <span className="text-500">since last week</span>
                 </div>
             </div>
@@ -161,14 +225,14 @@ const Dashboard = () => {
                     <div className="flex justify-content-between mb-3">
                         <div>
                             <span className="block text-500 font-medium mb-3">Customers</span>
-                            <div className="text-900 font-medium text-xl">28441</div>
+                            <div className="text-900 font-medium text-xl">{customerCount}</div>
                         </div>
                         <div className="flex align-items-center justify-content-center bg-cyan-100 border-round" style={{ width: '2.5rem', height: '2.5rem' }}>
                             <i className="pi pi-inbox text-cyan-500 text-xl" />
                         </div>
                     </div>
-                    <span className="text-green-500 font-medium">520 </span>
-                    <span className="text-500">newly registered</span>
+                    <span className="text-green-500 font-medium">{customerCount} </span>
+                    <span className="text-500">new customer</span>
                 </div>
             </div>
             <div className="col-12 lg:col-6 xl:col-3">
@@ -176,13 +240,13 @@ const Dashboard = () => {
                     <div className="flex justify-content-between mb-3">
                         <div>
                             <span className="block text-500 font-medium mb-3">Comments</span>
-                            <div className="text-900 font-medium text-xl">152 Unread</div>
+                            <div className="text-900 font-medium text-xl">0 Unread</div>
                         </div>
                         <div className="flex align-items-center justify-content-center bg-purple-100 border-round" style={{ width: '2.5rem', height: '2.5rem' }}>
                             <i className="pi pi-comment text-purple-500 text-xl" />
                         </div>
                     </div>
-                    <span className="text-green-500 font-medium">85 </span>
+                    <span className="text-green-500 font-medium">0 </span>
                     <span className="text-500">responded</span>
                 </div>
             </div>
@@ -190,8 +254,7 @@ const Dashboard = () => {
             <div className="col-12 xl:col-6">
                 <div className="card">
                     <h5>Recent Sales</h5>
-                    <DataTable value={products} rows={5} paginator responsiveLayout="scroll">
-                        <Column header="Image" body={(data) => <img className="shadow-2" src={`/demo/images/product/${data.image}`} alt={data.image} width="50" />} />
+                    <DataTable value={meals} rows={5} paginator responsiveLayout="scroll">
                         <Column field="name" header="Name" sortable style={{ width: '35%' }} />
                         <Column field="price" header="Price" sortable style={{ width: '35%' }} body={(data) => formatCurrency(data.price)} />
                         <Column

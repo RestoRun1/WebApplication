@@ -19,9 +19,12 @@ class EventsAPI {
 
     public async retrieveAllEvents(): Promise<Event[]> {
         try {
-            console.log("DEBUG")
-            const response = await axios.get<Event[]>(`${this.standardPath}/retrieveAllEvents`);
-            console.log(response.data);
+            const token = localStorage.getItem('token');
+            const response = await axios.get<Event[]>(`${this.standardPath}/retrieveAllEvents`, {
+                headers: {
+                    'Authorization': `Bearer ${token}`
+                }
+            });
             return response.data;
         } catch (error) {
             throw new Error('Failed to retrieve all events');

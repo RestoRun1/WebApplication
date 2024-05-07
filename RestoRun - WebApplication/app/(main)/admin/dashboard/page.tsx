@@ -34,7 +34,7 @@ const lineData: ChartData = {
     ]
 };
 
-const ChefDashboard = () => {
+const AdminDashboard = () => {
     const [products, setProducts] = useState<Demo.Product[]>([]);
     const menu1 = useRef<Menu>(null);
     const menu2 = useRef<Menu>(null);
@@ -361,4 +361,4 @@ const ChefDashboard = () => {
     );
 };
 
-export default ChefDashboard;
+export default AdminDashboard;

@@ -72,7 +72,7 @@ const StaffPage = () => {
     const renderModalContent = () => {
         return (
             <div>
-                <Dialog header="Add New Employee" visible={isModalVisible} style={{ width: '50vw' }} onHide={handleModalToggle}>
+                <Dialog header="Edit Employee" visible={isModalVisible} style={{ width: '50vw' }} onHide={handleModalToggle}>
                     <div className="p-fluid">
                         <div className="p-field">
                             <label htmlFor="username">Username</label>
@@ -146,9 +146,6 @@ const StaffPage = () => {
         }
     }
 
-
-
-
     return (
         <div className="grid">
             <div className="col-12">
@@ -166,10 +163,10 @@ const StaffPage = () => {
                         </div>
                     ) : (
                         <DataTable value={employees}>
-                            <Column field="Employee ID" header="Employee ID"></Column>
-                            <Column field="Email" header="Email"></Column>
-                            <Column field="Person Name" header="Person Name"></Column>
-                            <Column field="Role" header="Role"></Column>
+                            <Column field="userId" header="Employee ID"></Column>
+                            <Column field="email" header="Email"></Column>
+                            <Column field="username" header="Username"></Column>
+                            <Column field="role" header="Role"></Column>
                             <Column field="Date Joined" header="Date Joined"></Column>
                             <Column header="Actions" body={actionBodyTemplate} />
                         </DataTable>

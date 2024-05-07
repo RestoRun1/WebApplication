@@ -18,8 +18,15 @@ class EmployeeAPI {
     }
 
     public async retrieveAllEmployeesByRestaurantId(id: string): Promise<Employee[]> {
+        // add token that was stored in the local storage to the header
         try {
-            const response = await axios.get<Employee[]>(`${this.standardPath}/retrieveAllEmployeesByRestaurantId/${id}`);
+            const token = localStorage.getItem('token');
+            const response = await axios.get<Employee[]>(`${this.standardPath}/retrieveAllEmployeesByRestaurantId/${id}`, {
+                headers: {
+                    'Authorization': `Bearer ${token}`
+                }
+            });
+            console.log(response.data);
             return response.data;
         } catch (error) {
             throw new Error('Failed to retrieve all employees');

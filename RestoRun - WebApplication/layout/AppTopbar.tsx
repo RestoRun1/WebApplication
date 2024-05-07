@@ -20,21 +20,22 @@ const AppTopbar = forwardRef<AppTopbarRef>((props, ref) => {
 
     return (
         <div className="layout-topbar">
+            <button ref={menubuttonRef} type="button" className="p-link layout-menu-button layout-topbar-button"
+                    onClick={onMenuToggle}>
+                <i className="pi pi-bars"/>
+            </button>
             <Link href="/" className="layout-topbar-logo">
-            {/*after logo -${layoutConfig.colorScheme !== 'light' ? 'white' : 'dark'}.svg */}
-                <img src={`/layout/images/logo.png`} width="47.22px" height={'35px'} alt="logo" />
+                {/*after logo -${layoutConfig.colorScheme !== 'light' ? 'white' : 'dark'}.svg */}
+                <img src={`/layout/images/logo.png`} width="47.22px" height={'35px'} alt="logo"/>
                 <span>RestoRun</span>
             </Link>
-
-            <button ref={menubuttonRef} type="button" className="p-link layout-menu-button layout-topbar-button" onClick={onMenuToggle}>
-                <i className="pi pi-bars" />
+            <button ref={topbarmenubuttonRef} type="button"
+                    className="p-link layout-topbar-menu-button layout-topbar-button" onClick={showProfileSidebar}>
+                <i className="pi pi-ellipsis-v"/>
             </button>
 
-            <button ref={topbarmenubuttonRef} type="button" className="p-link layout-topbar-menu-button layout-topbar-button" onClick={showProfileSidebar}>
-                <i className="pi pi-ellipsis-v" />
-            </button>
-
-            <div ref={topbarmenuRef} className={classNames('layout-topbar-menu', { 'layout-topbar-menu-mobile-active': layoutState.profileSidebarVisible })}>
+            <div ref={topbarmenuRef}
+                 className={classNames('layout-topbar-menu', {'layout-topbar-menu-mobile-active': layoutState.profileSidebarVisible})}>
                 <button type="button" className="p-link layout-topbar-button">
                     <i className="pi pi-calendar"></i>
                     <span>Calendar</span>

@@ -82,7 +82,7 @@ const AppMenu = () => {
                 {
                     label: 'View Menu',
                     icon: 'pi pi-fw pi-book',
-                    to: '/pages/view-menu'
+                    to: '/chef/menu'
                 },
             ]
         },
