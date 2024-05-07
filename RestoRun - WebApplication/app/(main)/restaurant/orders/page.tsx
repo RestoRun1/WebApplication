@@ -140,8 +140,7 @@ const OrdersPage = () => {
                                        rowExpansionTemplate={rowExpansionTemplate} dataKey="id">
                                 <Column expander style={{ width: '3em' }} />
                                 <Column field="id" header="Order ID" />
-                                <Column field="date" header="Date" />
-                                <Column field="personCount" header="Person Count" />
+                                <Column field="tableId" header="Table ID" />
                                 <Column field="status" header="Status" body={statusBodyTemplate} />
                             </DataTable>
                         </div>
