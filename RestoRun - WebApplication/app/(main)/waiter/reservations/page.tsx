@@ -9,11 +9,14 @@ import { Column } from 'primereact/column';
 import ReservationsAPI from "../../../api/restaurant-api/ReservationsAPI";
 import { Dialog } from "primereact/dialog";
 import {InputNumber} from "primereact/inputnumber";
+import {Tag} from "primereact/tag";
+import {Card} from "primereact/card";
+import { render } from "sass";
 
 interface Reservation {
     id: string;
     table: Table;
-    customer: Customer;
+    customer: string;
     reservationTime: Date;
     numberOfGuests: number;
     specialRequests: string;
@@ -33,18 +36,22 @@ interface Customer {
     password: string;
 }
 
-const ReservationsPage = () => {
+const ManagerReservationsPage = () => {
     const [isModalVisible, setIsModalVisible] = useState(false);
-    const [tableNumber, setTableNumber] = useState('');
+    
     const [seatingCapacity, setSeatingCapacity] = useState(0);
     const [table, setTable] = useState<Table | null>(null);
 
-    const [customer, setCustomer] = useState<Customer | null>(null);
-    const [reservationTime, setReservationTime] = useState<Date | null>(null);
-    const [numberOfGuests, setNumberOfGuests] = useState<number>(0);
-    const [specialRequests, setSpecialRequests] = useState<string>('');
+   
     const [status, setStatus] = useState<string>('');
     const [reservations, setReservations] = useState<Reservation[]>([]);
+
+
+    const [customerId, setCustomerId] = useState<number | null>();
+    const [reservationTime, setReservationTime] = useState<Date | null>(new Date());
+    const [numberOfGuests, setNumberOfGuests] = useState<number | null>();
+    const [specialRequests, setSpecialRequests] = useState<string>();
+    const [tableNumber, setTableNumber] = useState<number | null>();
 
     const [loading, setLoading] = useState<boolean>(true);
     const [error, setError] = useState<string | null>(null);
@@ -54,7 +61,7 @@ const ReservationsPage = () => {
     const [dateFrom, setDateFrom] = useState<Date | null>(null);
     const [dateTo, setDateTo] = useState<Date | null>(null);
 
-    const [expandedRows, setExpandedRows] = useState(null);
+    const [expandedRows, setExpandedRows] = useState({});
 
 
 
@@ -78,21 +85,53 @@ const ReservationsPage = () => {
 
     const actionBodyTemplate = (rowData: Reservation) => {
         return (
-            <div className="actions">
-                <Button className="p-button-success" icon="pi pi-pencil" onClick={() => handleEdit(rowData)}/>
-                <Button className="p-button-danger" icon="pi pi-trash" onClick={() => handleDelete(rowData.id)}/>
-            </div>
+            <>
+                <Button icon="pi pi-pencil" rounded severity="success" className="mr-2" onClick={() => handleEdit(rowData)} />
+                <Button icon="pi pi-trash" rounded severity="danger" onClick={() => handleDelete(rowData.id)} />
+            </>
         );
-    }
+    };
+
+    const renderModalContent = (rowData) => {
+        console.log('Row data: ', rowData);
+        return (
+            <Dialog header="New Reservation" visible={isModalVisible} style={{ width: '50vw' }} onHide={handleModalToggle}>
+                <div className="card p-fluid">
+                    <div className="field">
+                        <label htmlFor="customerId">Customer ID</label>
+                        <InputText id="customerId" type="number" value={customerId || ''} onChange={(e) => setCustomerId(e.target.value ? parseInt(e.target.value) : null)} />
+                    </div>
+                    <div className="field">
+                        <label htmlFor="tableId">Table ID</label>
+                        <InputText id="tableId" type="number" value={tableNumber || ''} onChange={(e) => setTableNumber(e.target.value ? parseInt(e.target.value) : null)} />
+                    </div>
+                    <div className="field">
+                        <label htmlFor="reservationTime">Reservation Time</label>
+                        <Calendar id="reservationTime" value={reservationTime} onChange={(e) => setReservationTime(e.value)} />
+                    </div>
+                    <div className="field">
+                        <label htmlFor="numberOfGuests">Number of Guests</label>
+                        <InputText id="numberOfGuests" type="number" value={numberOfGuests || ''} onChange={(e) => setNumberOfGuests(e.target.value ? parseInt(e.target.value) : null)} />
+                    </div>
+                    <div className="field">
+                        <label htmlFor="specialRequests">Special Requests</label>
+                        <InputText id="specialRequests" type="text" value={specialRequests} onChange={(e) => setSpecialRequests(e.target.value)} />
+                    </div>
+                    <div className="field">
+                        <label htmlFor="restaurantId">Restaurant ID</label>
+                        <InputText id="restaurantId" type="text" />
+                    </div>
+                    <div className="field">
+                        <Button label="Submit" className="p-button-success" size="small" icon="pi pi-check" onClick={handleSubmit}/>
+                    </div>
+                </div>
+            </Dialog>
+        );
+    };
 
     const handleEdit = (rowData: Reservation) => {
         setIsEditMode(true);
-        setTable(rowData.table);
-        setCustomer(rowData.customer);
-        setReservationTime(rowData.reservationTime);
-        setNumberOfGuests(rowData.numberOfGuests);
-        setSpecialRequests(rowData.specialRequests);
-        setStatus(rowData.status);
+        
         setIsEditMode(true);
         setIsModalVisible(true);
     }
@@ -117,12 +156,7 @@ const ReservationsPage = () => {
         const api = new ReservationsAPI('http://localhost:8080');
         const reservation: Reservation = {
             id: '',
-            table: table as Table,
-            customer: customer as Customer,
-            reservationTime: reservationTime as Date,
-            numberOfGuests: numberOfGuests,
-            specialRequests: specialRequests,
-            status: status,
+            // Fix this.
         };
         if (isEditMode) {
             try {
@@ -148,25 +182,75 @@ const ReservationsPage = () => {
         return `${date.getFullYear()}-${date.getMonth() + 1}-${date.getDate()}`;
     }
 
-    const rowExpansionTemplate = (rowData: Reservation) => {
-        return (
-            <div className="reservation-details">
-                {/* You can structure your detailed view here */}
-                <h5>Reservation Details</h5>
-                <div>
-                    <p>Table: {rowData.table.tableNumber}</p>
-                    <p>Customer: {rowData.customer.username}</p>
-                    <p>Reservation Time: {convertDateToString(rowData.reservationTime)}</p>
-                    <p>Number of Guests: {rowData.numberOfGuests}</p>
-                    <p>Special Requests: {rowData.specialRequests}</p>
-                    <p>Status: {rowData.status}</p>
-                </div>
-                {/* ... other details */}
-            </div>
-        );
+    const onRowToggle = (event) => {
+        setExpandedRows(event.data);
     };
 
-    const renderModalContent = () => {
+    const rowExpansionTemplate = (rowData) => {
+        return (
+            <Card title={`Reservation Details for ID: ${rowData.id}`} style={{ marginBottom: '20px' }} className="reservation-details-card">
+                <div className="p-grid">
+                    <div className="p-col-12">
+                        <label><strong>Reservation Time:</strong></label>
+                        <p>{rowData.reservationTime}</p>
+                    </div>
+                    <div className="p-col-12">
+                        <label><strong>Number of Guests:</strong></label>
+                        <p>{rowData.numberOfGuests}</p>
+                    </div>
+                    <div className="p-col-12">
+                        <label><strong>Special Requests:</strong></label>
+                        <p>{rowData.specialRequests}</p>
+                    </div>
+                    <div className="p-col-12">
+                        <label><strong>Table ID:</strong></label>
+                        <p>{rowData.tableId}</p>
+                    </div>
+                    <div className="p-col-12">
+                        <label><strong>Customer ID:</strong></label>
+                        <p>{rowData.customerId}</p>
+                    </div>
+                </div>
+            </Card>
+        );
+    };
+    
+
+    
+    return (
+        <div className="grid">
+            <div className="col-12">
+                <div className="card">
+                    <div className="col-6">
+                    <h4>Reservations</h4>
+                    <Button label="Add New Reservation" className="p-button-success" size="small" icon="pi pi-plus" onClick={handleModalToggle} />
+                    </div>
+                    <div className="grid">
+                        <div className="col-12">
+                            {renderModalContent(reservations[0])}
+                            <DataTable value={reservations} expandedRows={expandedRows} onRowToggle={onRowToggle}
+                                               rowExpansionTemplate={rowExpansionTemplate} dataKey="id">
+                                <Column expander style={{ width: '3em' }} />
+                                <Column field="id" header="Order ID" />
+                                <Column field="tableId" header="TableId" />
+                                <Column field="actions" header="Actions" body={actionBodyTemplate} />
+                            </DataTable>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    );
+
+    
+};
+
+export default ManagerReservationsPage;
+
+
+/*
+
+const renderModalContent = () => {
         return (
             <div>
                 <Dialog visible={isModalVisible} onHide={handleModalToggle}>
@@ -231,69 +315,4 @@ const ReservationsPage = () => {
         );
     }
 
-    const onRowToggle = (e) => {
-        const dataKey = e.data.id; // Assuming 'id' is the unique key in your data
-        setExpandedRows(expandedRows === dataKey ? null : dataKey);
-    };
-
-    return (
-        <div className="grid">
-            <div className="col-12">
-                <div className="card">
-                    <h5>Reservations</h5>
-                    <div className="grid">
-                        <div className='col-3'>
-                            <div className="field grid">
-                                <label htmlFor="name3" className="col-12 mb-2 md:col-2 md:mb-0">
-                                    From
-                                </label>
-                                <div className="col-12 md:col-10">
-                                    <Calendar value={dateFrom} onChange={(e) => setDateFrom(e.value as Date)} showIcon />
-                                </div>
-                            </div>
-                            <div className="field grid">
-                                <label htmlFor="email3" className="col-12 mb-2 md:col-2 md:mb-0">
-                                    To
-                                </label>
-                                <div className="col-12 md:col-10">
-                                    <Calendar value={dateTo} onChange={(e) => setDateTo(e.value as Date)} showIcon />
-                                </div>
-                            </div>
-                            <div className="field grid">
-                                <Button label="Search" className="p-button-success" style={{ width: '100%' }} />
-                            </div>
-                            <div className="field grid">
-                                <div className="col-12">
-                                    <h6>Cancelled: </h6>
-                                </div>
-                                <div className="col-12">
-                                    <h6>Confirmed: </h6>
-                                </div>
-                                <div className="col-12">
-                                    <h6>Abandoned: </h6>
-                                </div>
-                                <div className="col-12">
-                                    <h6>Checked In:</h6>
-                                </div>
-                            </div>
-                        </div>
-                        <div className="col-9">
-                            {renderModalContent()}
-                            <DataTable value={reservations} expandedRows={expandedRows ? {[expandedRows]: true} : null}
-                                       onRowToggle={onRowToggle} rowExpansionTemplate={rowExpansionTemplate}
-                                       dataKey="id">
-                                <Column expander style={{ width: '3em' }} />
-                                <Column field="reservationId" header="Reservation ID" />
-                                <Column field="date" header="Date" />
-                                <Column field="personCount" header="Person Count" />
-                                <Column field="status" header="Status" />
-                            </DataTable>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    );
-};
-
-export default ReservationsPage;
+*/

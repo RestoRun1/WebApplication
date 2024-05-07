@@ -34,7 +34,12 @@ class ReservationAPI {
 
     public async retrieveAllReservations(): Promise<Reservation[]> {
         try {
-            const response = await axios.get<Reservation[]>(`${this.standardPath}/retrieveAllReservations`);
+            const token = localStorage.getItem('token');
+            const response = await axios.get<Reservation[]>(`${this.standardPath}/retrieveAllReservations`, {
+                headers: {
+                    'Authorization': `Bearer ${token}`
+                }
+            });
             return response.data;
         } catch (error) {
             throw new Error('Failed to retrieve all reservations');
@@ -43,7 +48,12 @@ class ReservationAPI {
 
     public async saveReservation(reservation: Reservation): Promise<Reservation> {
         try {
-            const response = await axios.post<Reservation>(`${this.standardPath}/saveReservation`, reservation);
+            const token = localStorage.getItem('token');
+            const response = await axios.post<Reservation>(`${this.standardPath}/saveReservation`, reservation, {
+                headers: {
+                    'Authorization': `Bearer ${token}`
+                }
+            });
             return response.data;
         } catch (error) {
             throw new Error('Failed to save reservation');
@@ -52,7 +62,12 @@ class ReservationAPI {
 
     public async retrieveReservationById(id: string): Promise<Reservation> {
         try {
-            const response = await axios.get<Reservation>(`${this.standardPath}/retrieveReservationById/${id}`);
+            const token = localStorage.getItem('token');
+            const response = await axios.get<Reservation>(`${this.standardPath}/retrieveReservationById/${id}`, {
+                headers: {
+                    'Authorization': `Bearer ${token}`
+                }
+            });
             return response.data;
         } catch (error) {
             throw new Error(`Failed to retrieve reservation with ID ${id}`);
@@ -61,7 +76,12 @@ class ReservationAPI {
 
     public async deleteReservation(id: string): Promise<void> {
         try {
-            await axios.delete(`${this.standardPath}/deleteReservation/${id}`);
+            const token = localStorage.getItem('token');
+            await axios.delete(`${this.standardPath}/deleteReservation/${id}`, {
+                headers: {
+                    'Authorization': `Bearer ${token}`
+                }
+            });
         } catch (error) {
             throw new Error(`Failed to delete reservation with ID ${id}`);
         }

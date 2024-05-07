@@ -181,8 +181,6 @@ const EventsPage = () => {
                 <div className="card">
                     <div className="col-6">
                         <h4>Events</h4>
-                    </div>
-                    <div className="col-6">
                         <Button label="Add New Event" className="p-button-success" size="small" icon="pi pi-plus" onClick={handleModalToggle} />
                     </div>
                     {renderModalContent()}
