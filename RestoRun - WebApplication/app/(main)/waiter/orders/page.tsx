@@ -273,14 +273,14 @@ const OrdersPage = () => {
                 <TabView>
                     <TabPanel header="Orders">
                         <div className="card">
-                            <h5>Orders List for Chef</h5>
+                            <h5>Orders List for Waiter</h5>
                             <div className="grid">
                                 <div className="col-12">
                                     <DataTable value={orders} expandedRows={expandedRows} onRowToggle={onRowToggle}
                                                rowExpansionTemplate={rowExpansionTemplate} dataKey="id">
                                         <Column expander style={{ width: '3em' }} />
                                         <Column field="id" header="Order ID" />
-                                        <Column field="totalPrice" header="Total Price" />
+                                        <Column field="tableId" header="TableId" />
                                         <Column field="status" header="Status" body={statusBodyTemplate} />
                                     </DataTable>
                                 </div>
